@@ -12,6 +12,34 @@ video.setAttribute("playsinline", true);
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
+
+var sound1Loaded = {loaded: false};
+var sound2Loaded = {loaded: false};
+var sound3Loaded = {loaded: false};
+var sound4Loaded = {loaded: false};
+var videoLoaded  = {loaded: false};
+
+
+var sound1, sound2, sound3, sound4;
+
+var loadedElements = [sound1Loaded, sound2Loaded, sound3Loaded, sound4Loaded, videoLoaded]
+
+function checkforAssetsLoaded(){
+  if(loadedElements.every((asset)=> {
+      return asset.loaded === true;
+  })){
+    console.log('should play audio now');
+    console.log('should also play video');
+    sound1.play();
+    sound2.play();
+    sound3.play();
+    sound4.play();
+    video.play();
+  }/* else {
+    console.log('no sound yet');
+  }*/
+}
+
 // Client Type Check if mobile set camera to move with Phone deviceorientation.
 // else if desktop use click and drag to control camera.
 if (
@@ -67,10 +95,10 @@ checkboxStart.addEventListener("change", function() {
     camera.add(listener);
 
     // create the PositionalAudio object (passing in the listener)
-    var sound1 = new THREE.PositionalAudio(listener);
-    var sound2 = new THREE.PositionalAudio(listener);
-    var sound3 = new THREE.PositionalAudio(listener);
-    var sound4 = new THREE.PositionalAudio(listener);
+    sound1 = new THREE.PositionalAudio(listener);
+    sound2 = new THREE.PositionalAudio(listener);
+    sound3 = new THREE.PositionalAudio(listener);
+    sound4 = new THREE.PositionalAudio(listener);
 
     // load a sound and set it as the PositionalAudio object's buffer
     var audioLoader = new THREE.AudioLoader();
@@ -81,13 +109,18 @@ checkboxStart.addEventListener("change", function() {
         sound1.setBuffer(buffer);
         sound1.setRefDistance(20);
         sound1.setLoop(true);
-        sound1.play();
+        sound1Loaded.loaded = true;
+        checkforAssetsLoaded();
+        // sound1.play();
       }, // onProgress callback
       function(xhr) {
         var percentLoaded = xhr.loaded / xhr.total * 100;
+
+        console.log("sound1Loaded... " + percentLoaded);
         if (percentLoaded === 100) {
-          sound1Loaded = true;
-          console.log("sound1Loaded... " + percentLoaded);
+
+          
+          
         }
       },
       // onError callback
@@ -102,13 +135,15 @@ checkboxStart.addEventListener("change", function() {
         sound2.setBuffer(buffer);
         sound2.setRefDistance(20);
         sound2.setLoop(true);
-        sound2.play();
+        sound2Loaded.loaded = true;
+        checkforAssetsLoaded();
+        // sound2.play();
       }, // onProgress callback
       function(xhr) {
         var percentLoaded = xhr.loaded / xhr.total * 100;
-        if (percentLoaded === 100) {
-          sound2Loaded = true;
           console.log("sound2Loaded... " + percentLoaded);
+        if (percentLoaded === 100) {
+
         }
       },
       // onError callback
@@ -123,13 +158,15 @@ checkboxStart.addEventListener("change", function() {
         sound3.setBuffer(buffer);
         sound3.setRefDistance(20);
         sound3.setLoop(true);
-        sound3.play();
+        sound3Loaded.loaded = true;
+        checkforAssetsLoaded();
+        // sound3.play();
       }, // onProgress callback
       function(xhr) {
         var percentLoaded = xhr.loaded / xhr.total * 100;
-        if (percentLoaded === 100) {
-          sound3Loaded = true;
           console.log("sound3Loaded... " + percentLoaded);
+        if (percentLoaded === 100) {
+
         }
       },
       // onError callback
@@ -144,13 +181,15 @@ checkboxStart.addEventListener("change", function() {
         sound4.setBuffer(buffer);
         sound4.setRefDistance(20);
         sound4.setLoop(true);
-        sound4.play();
+        sound4Loaded.loaded = true;
+        checkforAssetsLoaded();
+        // sound4.play();
       }, // onProgress callback
       function(xhr) {
         var percentLoaded = xhr.loaded / xhr.total * 100;
-        if (percentLoaded === 100) {
-          sound4Loaded = true;
           console.log("sound4Loaded... " + percentLoaded);
+        if (percentLoaded === 100) {
+
         }
       },
       // onError callback
@@ -204,6 +243,7 @@ checkboxStart.addEventListener("change", function() {
     //           Toggle Sound On/Off  Buttons    //
     //*******************************************//
     var checkboxSound = document.querySelector("input[name=checkboxSound]");
+    checkboxSound.style.cursor = 'pointer';
     checkboxSound.addEventListener("change", function() {
       if (this.checked) {
         // Checkbox is checked..
@@ -221,6 +261,7 @@ checkboxStart.addEventListener("change", function() {
     //          Toggle Play / Pause Buttons      //
     //*******************************************//
     var checkboxPlay = document.querySelector("input[name=checkboxPlay]");
+    checkboxPlay.style.cursor = 'pointer';
     checkboxPlay.addEventListener("change", function() {
       if (this.checked) {
         // Checkbox is checked..
@@ -248,7 +289,17 @@ function init() {
   video.muted = true;
   video.src = videoUrl;
   video.setAttribute("webkit-playsinline", "webkit-playsinline");
-  video.play();
+
+  // video.addEventListener('progress', function() {
+  //   console.log('loading')
+  // });
+
+  video.addEventListener("canplaythrough", function() {
+    console.log('can play video')
+    videoLoaded.loaded = true;
+    checkforAssetsLoaded();
+  }, false);
+  
 
   var geometry = new THREE.SphereBufferGeometry(500, 60, 40);
   geometry.scale(-1, 1, 1);
@@ -284,7 +335,7 @@ function jurrasicPark(deg, sound1) {
     var x = deg <= 50 ? (x = deg) : (x = 360 - deg); // right camera movement from jurrasicPark outputs negative degrees.
     //var vol = 1 - x / 50; // where x is current degrees. At every movement left or right, volume is decreased to this ratio.
     var vol = 10 - x / 50 * 10; // At every movement left or right, volume is decreased to this ratio.
-    console.log(vol);
+    // console.log(vol);
     deg === 360 ? sound1.setVolume(10) : sound1.setVolume(vol); // 360 degrees is the center of current theme therefore volume is at max where max is (1)
   } else sound1.setVolume(0); // when not in range mute the theme song.
 }
@@ -294,7 +345,7 @@ function harryPotter(deg, sound2) {
   // camera range to set volume levels of current theme song.
   if (deg <= 140 && deg >= 40) {
     var vol = 10 - Math.abs(90 - deg) / 50 * 10; // At every movement left or right, volume is decreased to this ratio.
-    console.log(vol);
+    // console.log(vol);
     deg === 90 ? sound2.setVolume(10) : sound2.setVolume(vol); // 90 degrees is the center of Harry Potter theme therefore volume is at max where max is (1)
   } else sound2.setVolume(0); // when not in range mute the theme song.
 }
