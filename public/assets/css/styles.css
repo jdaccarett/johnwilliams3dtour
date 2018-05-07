@@ -15,10 +15,13 @@ body {
   box-sizing: border-box;
   margin: 0;
   overflow: hidden;
-  font-family: sans-serif;
+  /*font-family: sans-serif;*/
   letter-spacing: 1px;
-  font-weight: 100;
+  /*font-weight: 100;*/
   text-transform: uppercase;
+  font-family: brandon-grotesque, sans-serif;
+  font-style: normal;
+  font-weight: 900;
 }
 
 canvas {
@@ -76,7 +79,9 @@ canvas {
 }
 
 .bkg {
-  background-color: rgba(0, 0, 0, 1);
+  /*background-color: rgba(0, 0, 0, 1);*/
+  background: url("../imgs/m_bg.png");
+  background-size: cover;
   z-index: 2;
   position: absolute;
   top: 0;
@@ -85,7 +90,7 @@ canvas {
   bottom: 0;
 
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
 }
 
@@ -101,42 +106,93 @@ h1 {
 }
 
 .header__text-box {
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  width: 100%;
-  transform: translate(-50%, -50%);
   text-align: center;
+  max-width: 80%;
+  margin-top: 100px
 }
 
-.heading-primary {
+.heading-primary, .heading-secondary {
   color: #fff;
   text-transform: uppercase;
   backface-visibility: hidden;
-  margin-bottom: 6rem;
+  margin-bottom: 11rem;
 }
-.heading-primary--main {
+
+.heading-primary--main, .heading-secondary--main {
   display: block;
-  font-size: 6rem;
-  font-weight: 400;
-  letter-spacing: 3.5rem;
+  font-size: 2.2rem;
+  /*font-weight: 400;*/
+  letter-spacing: 10px;
+  margin-bottom: 20px;
+}
+
+.heading-secondary--main {
+  letter-spacing: 2px;
+  max-width: 60%;
+  margin: 0 auto;
+}
+
+.heading-primary--sub, .heading-primary--allNew, .heading-primary--london {
+  text-align: center;
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 15px;
 }
 
 .heading-primary--sub {
-  text-align: center;
-  display: block;
-  font-size: 2rem;
-  font-weight: 700;
-  letter-spacing: 15px;
-  letter-spacing: 17.4px;
+  margin-bottom: 50px;
+  letter-spacing: 5px;
+}
+
+.heading-primary--allNew {
+  letter-spacing: 3px;
+  font-size: 1rem;
+  margin-bottom: 5px;
+}
+
+.heading-primary--london {
+  letter-spacing: 3px;
+  font-size: 1.2rem;
 }
 
 .btn--white {
-  background-color: #fff;
-  color: #777;
-  padding: 15px 40px;
-  border-radius: 50px;
+  background-color: transparent;
+  color: #fff;
+  padding: 15px 100px;
+  border: 2px solid #fff;
+  font-size: 1.8rem;
+  letter-spacing: 5px;
+  /*border-radius: 50px;*/
 }
 .btn--white::after {
   background-color: #fff;
+}
+
+@media (min-width: 500px) {
+
+  .bkg {
+    background: url("../imgs/d_bg.png");
+    background-size: cover;
+
+  }
+
+  .header__text-box {
+    margin-top: 250px;
+  }
+
+  .heading-primary--main, .heading-secondary--main {
+    display: block;
+    font-size: 4.2rem;
+    /*font-weight: 400;*/
+    letter-spacing: 10px;
+    margin-bottom: 20px;
+  }
+
+  .heading-secondary--main {
+    font-size: 2.2rem;
+
+  }
+
+
 }
