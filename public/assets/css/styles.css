@@ -1,0 +1,142 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  /* Default font size of browser is 16px convert to percentage. */
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  box-sizing: border-box;
+  margin: 0;
+  overflow: hidden;
+  font-family: sans-serif;
+  letter-spacing: 1px;
+  font-weight: 100;
+  text-transform: uppercase;
+}
+
+canvas {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  position: relative;
+}
+
+.nav {
+  z-index: 1;
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  color: white;
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 2rem;
+  opacity: 0.5;
+}
+
+.playbtn {
+  display: flex;
+  align-items: center;
+}
+
+.playbtn__icon {
+  height: 3rem;
+  width: 3rem;
+}
+
+.playbtn__icon:active {
+  transform: scaleY(-1rem);
+}
+
+.playbtn__input {
+  display: none;
+}
+
+.soundbtn {
+  display: flex;
+  align-items: center;
+}
+
+.soundbtn__icon {
+  height: 3rem;
+  width: 2rem;
+}
+
+.soundbtn__input {
+  display: none;
+}
+
+.bkg {
+  background-color: rgba(0, 0, 0, 1);
+  z-index: 2;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  color: white;
+  flex: 0 0 20%;
+  height: 20rem;
+  background-color: black;
+}
+
+h1 {
+  margin-bottom: 2rem;
+}
+
+.header__text-box {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  width: 100%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.heading-primary {
+  color: #fff;
+  text-transform: uppercase;
+  backface-visibility: hidden;
+  margin-bottom: 6rem;
+}
+.heading-primary--main {
+  display: block;
+  font-size: 6rem;
+  font-weight: 400;
+  letter-spacing: 3.5rem;
+}
+
+.heading-primary--sub {
+  text-align: center;
+  display: block;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 15px;
+  letter-spacing: 17.4px;
+}
+
+.btn--white {
+  background-color: #fff;
+  color: #777;
+  padding: 15px 40px;
+  border-radius: 50px;
+}
+.btn--white::after {
+  background-color: #fff;
+}
