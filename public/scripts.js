@@ -12,7 +12,6 @@ video.setAttribute("playsinline", true);
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-
 var sound1Loaded = {loaded: false};
 var sound2Loaded = {loaded: false};
 var sound3Loaded = {loaded: false};
@@ -28,16 +27,15 @@ function checkforAssetsLoaded(){
   if(loadedElements.every((asset)=> {
       return asset.loaded === true;
   })){
-    console.log('should play audio now');
-    console.log('should also play video');
+    console.log('All assets loaded');
     sound1.play();
     sound2.play();
     sound3.play();
     sound4.play();
     video.play();
-  }/* else {
-    console.log('no sound yet');
-  }*/
+  } else {
+    console.log('Waiting on assets');
+  }
 }
 
 // Client Type Check if mobile set camera to move with Phone deviceorientation.
@@ -75,6 +73,28 @@ if (
   videoUrl = "/assets/JW_desktop.mp4";
   controls = new THREE.OrbitControls(camera);
 }
+
+var req = new XMLHttpRequest();
+req.open('GET', videoUrl, true);
+req.responseType = 'blob';
+
+req.onload = function() {
+   // Onload is triggered even on 404
+   // so we need to check the status code
+   if (this.status === 200) {
+      var videoBlob = this.response;
+      var vid = URL.createObjectURL(videoBlob); // IE10+
+      // Video is now downloaded
+      // and we can set it as source on the video element
+      video.src = vid;
+      init();
+   }
+}
+req.onerror = function() {
+   console.log('there was an error loading the video');
+}
+
+req.send();
 
 //controls (ORBIT CONTROL) to disable zoom
 controls.enableZoom = false;
@@ -116,7 +136,7 @@ checkboxStart.addEventListener("change", function() {
       function(xhr) {
         var percentLoaded = xhr.loaded / xhr.total * 100;
 
-        console.log("sound1Loaded... " + percentLoaded);
+        // console.log("sound1Loaded... " + percentLoaded);
         if (percentLoaded === 100) {
 
           
@@ -141,7 +161,7 @@ checkboxStart.addEventListener("change", function() {
       }, // onProgress callback
       function(xhr) {
         var percentLoaded = xhr.loaded / xhr.total * 100;
-          console.log("sound2Loaded... " + percentLoaded);
+          // console.log("sound2Loaded... " + percentLoaded);
         if (percentLoaded === 100) {
 
         }
@@ -164,7 +184,7 @@ checkboxStart.addEventListener("change", function() {
       }, // onProgress callback
       function(xhr) {
         var percentLoaded = xhr.loaded / xhr.total * 100;
-          console.log("sound3Loaded... " + percentLoaded);
+          // console.log("sound3Loaded... " + percentLoaded);
         if (percentLoaded === 100) {
 
         }
@@ -187,7 +207,7 @@ checkboxStart.addEventListener("change", function() {
       }, // onProgress callback
       function(xhr) {
         var percentLoaded = xhr.loaded / xhr.total * 100;
-          console.log("sound4Loaded... " + percentLoaded);
+          // console.log("sound4Loaded... " + percentLoaded);
         if (percentLoaded === 100) {
 
         }
@@ -216,7 +236,7 @@ checkboxStart.addEventListener("change", function() {
       renderer.render(scene, camera);
     }
 
-    init();
+    // init();
     animate(camera);
 
     //*******************************************//
@@ -287,7 +307,7 @@ function init() {
   video.height = window.innerHeight;
   video.loop = true;
   video.muted = true;
-  video.src = videoUrl;
+  // video.src = videoUrl;
   video.setAttribute("webkit-playsinline", "webkit-playsinline");
 
   // video.addEventListener('progress', function() {
