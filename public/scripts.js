@@ -38,6 +38,8 @@ function checkforAssetsLoaded(){
   }
 }
 
+
+
 // Client Type Check if mobile set camera to move with Phone deviceorientation.
 // else if desktop use click and drag to control camera.
 if (
@@ -105,6 +107,22 @@ controls.enableZoom = false;
 var checkboxStart = document.querySelector("input[name=checkboxStart]");
 checkboxStart.addEventListener("change", function() {
   if (this.checked) {
+
+    //***********************************************//
+    //     Check if user has interacted with page    //
+    //***********************************************//
+    var userHasInteracted = false;
+
+    window.addEventListener('mousedown', function(e) {
+      userHasInteracted = true;
+    })
+
+    setTimeout(()=>{
+      if (!userHasInteracted) {
+        // alert('do something you dum dum')
+      }
+    }, 8000)
+
     document.querySelector(".bkg").style.display = "none";
 
     //***********************************************//
