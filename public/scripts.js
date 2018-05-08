@@ -244,6 +244,7 @@ checkboxStart.addEventListener("change", function() {
     //*******************************************//
     var checkboxSound = document.querySelector("input[name=checkboxSound]");
     checkboxSound.style.cursor = 'pointer';
+    checkboxSound.style.display = 'none';
     checkboxSound.addEventListener("change", function() {
       if (this.checked) {
         // Checkbox is checked..

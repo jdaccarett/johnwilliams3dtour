@@ -438,7 +438,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 	function handleMouseMoveRotate( event ) {
 
-		//console.log( 'handleMouseMoveRotate' );
+		console.log( 'handleMouseMoveRotate' );
 
 		rotateEnd.set( event.clientX, event.clientY );
 		rotateDelta.subVectors( rotateEnd, rotateStart );
@@ -446,10 +446,10 @@ THREE.OrbitControls = function ( object, domElement ) {
 		var element = scope.domElement === document ? scope.domElement.body : scope.domElement;
 
 		// rotating across whole screen goes 360 degrees around
-		rotateLeft( 2 * Math.PI * rotateDelta.x / element.clientWidth * scope.rotateSpeed );
+		rotateLeft( -1 * Math.PI * rotateDelta.x / element.clientWidth * scope.rotateSpeed );
 
 		// rotating up and down along whole screen attempts to go 360, but limited to 180
-		rotateUp( 2 * Math.PI * rotateDelta.y / element.clientHeight * scope.rotateSpeed );
+		rotateUp( -1 * Math.PI * rotateDelta.y / element.clientHeight * scope.rotateSpeed );
 
 		rotateStart.copy( rotateEnd );
 
@@ -525,29 +525,29 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 		//console.log( 'handleKeyDown' );
 
-		switch ( event.keyCode ) {
+		// switch ( event.keyCode ) {
 
-			case scope.keys.UP:
-				pan( 0, scope.keyPanSpeed );
-				scope.update();
-				break;
+		// 	case scope.keys.UP:
+		// 		pan( 0, scope.keyPanSpeed );
+		// 		scope.update();
+		// 		break;
 
-			case scope.keys.BOTTOM:
-				pan( 0, - scope.keyPanSpeed );
-				scope.update();
-				break;
+		// 	case scope.keys.BOTTOM:
+		// 		pan( 0, - scope.keyPanSpeed );
+		// 		scope.update();
+		// 		break;
 
-			case scope.keys.LEFT:
-				pan( scope.keyPanSpeed, 0 );
-				scope.update();
-				break;
+		// 	case scope.keys.LEFT:
+		// 		pan( scope.keyPanSpeed, 0 );
+		// 		scope.update();
+		// 		break;
 
-			case scope.keys.RIGHT:
-				pan( - scope.keyPanSpeed, 0 );
-				scope.update();
-				break;
+		// 	case scope.keys.RIGHT:
+		// 		pan( - scope.keyPanSpeed, 0 );
+		// 		scope.update();
+		// 		break;
 
-		}
+		// }
 
 	}
 

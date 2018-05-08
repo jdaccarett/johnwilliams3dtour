@@ -72,6 +72,7 @@ canvas {
 .soundbtn__icon {
   height: 3rem;
   width: 2rem;
+  display: none;
 }
 
 .soundbtn__input {
@@ -107,15 +108,20 @@ h1 {
 
 .header__text-box {
   text-align: center;
-  max-width: 80%;
-  margin-top: 100px
+  max-width: 90%;
+  margin-top: 30%
+}
+
+.header__image {
+  max-width: 90%;
+  margin-bottom: 100px;
 }
 
 .heading-primary, .heading-secondary {
   color: #fff;
   text-transform: uppercase;
   backface-visibility: hidden;
-  margin-bottom: 11rem;
+  margin-bottom: 13rem;
 }
 
 .heading-primary--main, .heading-secondary--main {
@@ -195,4 +201,19 @@ h1 {
   }
 
 
+}
+
+@media (max-width: 767px) and (orientation: landscape) {
+  .header__text-box {
+    margin-top: 60px;
+  }
+
+  .header__image {
+    max-width: 340px;
+    margin-bottom: 40px;
+  }
+
+  .heading-secondary {
+    margin-bottom: 7rem;
+  }
 }
