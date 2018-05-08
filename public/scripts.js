@@ -39,6 +39,13 @@ function checkforAssetsLoaded(){
 }
 
 
+var userHasInteracted = false;
+function mouseDown(e) {
+  console.log("mousedown")
+  userHasInteracted = true;
+  document.querySelector(".dragPrompt").style.opacity = "0";
+  window.removeEventListener('mousedown', mouseDown);
+}
 
 // Client Type Check if mobile set camera to move with Phone deviceorientation.
 // else if desktop use click and drag to control camera.
@@ -74,6 +81,8 @@ if (
   camera.position.z = 300;
   videoUrl = "/assets/JW_desktop.mp4";
   controls = new THREE.OrbitControls(camera);
+
+  var isDesktop = true;
 }
 
 var req = new XMLHttpRequest();
@@ -111,15 +120,11 @@ checkboxStart.addEventListener("change", function() {
     //***********************************************//
     //     Check if user has interacted with page    //
     //***********************************************//
-    var userHasInteracted = false;
-
-    window.addEventListener('mousedown', function(e) {
-      userHasInteracted = true;
-    })
+    window.addEventListener('mousedown', mouseDown);
 
     setTimeout(()=>{
-      if (!userHasInteracted) {
-        // alert('do something you dum dum')
+      if (!userHasInteracted && isDesktop) {
+        document.querySelector(".dragPrompt").style.opacity = "1";
       }
     }, 8000)
 
