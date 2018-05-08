@@ -43,12 +43,12 @@ canvas {
   justify-content: space-between;
   align-items: center;
   padding: 2rem 2rem;
-  opacity: 0.5;
 }
 
 .playbtn {
   display: flex;
   align-items: center;
+  opacity: .5;
 }
 
 .playbtn__icon {
@@ -77,6 +77,17 @@ canvas {
 
 .soundbtn__input {
   display: none;
+}
+
+.buyNowLink {
+  border: 2px solid #fff;
+  padding: 10px 50px;
+  opacity: .7;
+}
+
+.buyNowLink a {
+  text-decoration: none;
+  color: #fff;
 }
 
 .bkg {
@@ -113,6 +124,7 @@ canvas {
   text-align: center;
   opacity: 0;
   transition: all .5s ease-in-out;
+  z-index: -1;
 }
 
 .container {

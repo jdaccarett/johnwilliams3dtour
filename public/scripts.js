@@ -44,6 +44,7 @@ function mouseDown(e) {
   console.log("mousedown")
   userHasInteracted = true;
   document.querySelector(".dragPrompt").style.opacity = "0";
+  document.querySelector(".dragPrompt").style.zIndex = "-1";
   window.removeEventListener('mousedown', mouseDown);
 }
 
@@ -125,6 +126,8 @@ checkboxStart.addEventListener("change", function() {
     setTimeout(()=>{
       if (!userHasInteracted && isDesktop) {
         document.querySelector(".dragPrompt").style.opacity = "1";
+        document.querySelector(".dragPrompt").style.zIndex = "10";
+
       }
     }, 8000)
 
