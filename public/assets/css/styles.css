@@ -48,7 +48,7 @@ canvas {
 .playbtn {
   display: flex;
   align-items: center;
-  opacity: .5;
+  opacity: 0.5;
 }
 
 .playbtn__icon {
@@ -82,7 +82,7 @@ canvas {
 .buyNowLink {
   border: 2px solid #fff;
   padding: 10px 50px;
-  opacity: .7;
+  opacity: 0.7;
 }
 
 .buyNowLink a {
@@ -94,6 +94,7 @@ canvas {
   /*background-color: rgba(0, 0, 0, 1);*/
   background: url("../imgs/m_bg.png");
   background-size: cover;
+  background-position: center;
   z-index: 2;
   position: absolute;
   top: 0;
@@ -107,7 +108,7 @@ canvas {
 }
 
 .dragPrompt {
-  background: rgba(0,0,0,.5);
+  background: rgba(0, 0, 0, 0.5);
   border-radius: 10px;
   padding: 25px;
   position: absolute;
@@ -123,7 +124,7 @@ canvas {
   color: #fff;
   text-align: center;
   opacity: 0;
-  transition: all .5s ease-in-out;
+  transition: all 0.5s ease-in-out;
   z-index: -1;
 }
 
@@ -141,7 +142,7 @@ h1 {
 .header__text-box {
   text-align: center;
   max-width: 90%;
-  margin-top: 30%
+  margin-top: 30%;
 }
 
 .header__image {
@@ -149,14 +150,16 @@ h1 {
   margin-bottom: 100px;
 }
 
-.heading-primary, .heading-secondary {
+.heading-primary,
+.heading-secondary {
   color: #fff;
   text-transform: uppercase;
   backface-visibility: hidden;
   margin-bottom: 13rem;
 }
 
-.heading-primary--main, .heading-secondary--main {
+.heading-primary--main,
+.heading-secondary--main {
   display: block;
   font-size: 2.2rem;
   /*font-weight: 400;*/
@@ -170,7 +173,9 @@ h1 {
   margin: 0 auto;
 }
 
-.heading-primary--sub, .heading-primary--allNew, .heading-primary--london {
+.heading-primary--sub,
+.heading-primary--allNew,
+.heading-primary--london {
   text-align: center;
   display: block;
   font-size: 1.5rem;
@@ -201,6 +206,7 @@ h1 {
   border: 2px solid #fff;
   font-size: 1.8rem;
   letter-spacing: 5px;
+  display: none;
   /*border-radius: 50px;*/
 }
 .btn--white::after {
@@ -208,11 +214,10 @@ h1 {
 }
 
 @media (min-width: 500px) {
-
   .bkg {
     background: url("../imgs/d_bg.png");
     background-size: cover;
-
+    background-position: center;
   }
 
   .dragPrompt {
@@ -223,7 +228,8 @@ h1 {
     margin-top: 250px;
   }
 
-  .heading-primary--main, .heading-secondary--main {
+  .heading-primary--main,
+  .heading-secondary--main {
     display: block;
     font-size: 4.2rem;
     /*font-weight: 400;*/
@@ -233,9 +239,7 @@ h1 {
 
   .heading-secondary--main {
     font-size: 2.2rem;
-
   }
-
 
 }
 
@@ -252,4 +256,37 @@ h1 {
   .heading-secondary {
     margin-bottom: 7rem;
   }
+
+}
+
+#loading {
+  position: relative;
+  display: inline-block;
+  max-width: 150px;
+  max-height: 150px;
+  width: 100px;
+  height: 100px;
+  border: 5px solid rgba(255,255,255,.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+  -webkit-animation: spin 1s ease-in-out infinite;
+  margin: 0 auto;
+  margin-top: -10rem;
+}
+
+.progress {
+  color: white;
+  margin-top: 1rem;
+}
+
+@keyframes spin {
+  to { -webkit-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin {
+  to { -webkit-transform: rotate(360deg); }
+}
+
+span{
+  position absolute;
 }

@@ -12,40 +12,46 @@ video.setAttribute("playsinline", true);
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-var sound1Loaded = {loaded: false};
-var sound2Loaded = {loaded: false};
-var sound3Loaded = {loaded: false};
-var sound4Loaded = {loaded: false};
-var videoLoaded  = {loaded: false};
-
+var sound1Loaded = { loaded: false };
+var sound2Loaded = { loaded: false };
+var sound3Loaded = { loaded: false };
+var sound4Loaded = { loaded: false };
+var videoLoaded = { loaded: false };
 
 var sound1, sound2, sound3, sound4;
 
-var loadedElements = [sound1Loaded, sound2Loaded, sound3Loaded, sound4Loaded, videoLoaded]
+var loadedElements = [
+  sound1Loaded,
+  sound2Loaded,
+  sound3Loaded,
+  sound4Loaded,
+  videoLoaded
+];
 
-function checkforAssetsLoaded(){
-  if(loadedElements.every((asset)=> {
+function checkforAssetsLoaded() {
+  if (
+    loadedElements.every(asset => {
       return asset.loaded === true;
-  })){
-    console.log('All assets loaded');
+    })
+  ) {
+    console.log("All assets loaded");
     sound1.play();
     sound2.play();
     sound3.play();
     sound4.play();
     video.play();
   } else {
-    console.log('Waiting on assets');
+    console.log("Waiting on assets");
   }
 }
 
-
 var userHasInteracted = false;
 function mouseDown(e) {
-  console.log("mousedown")
+  console.log("mousedown");
   userHasInteracted = true;
   document.querySelector(".dragPrompt").style.opacity = "0";
   document.querySelector(".dragPrompt").style.zIndex = "-1";
-  window.removeEventListener('mousedown', mouseDown);
+  window.removeEventListener("mousedown", mouseDown);
 }
 
 // Client Type Check if mobile set camera to move with Phone deviceorientation.
@@ -87,24 +93,50 @@ if (
 }
 
 var req = new XMLHttpRequest();
-req.open('GET', videoUrl, true);
-req.responseType = 'blob';
+req.open("GET", videoUrl, true);
+req.responseType = "blob";
 
 req.onload = function() {
-   // Onload is triggered even on 404
-   // so we need to check the status code
-   if (this.status === 200) {
-      var videoBlob = this.response;
-      var vid = URL.createObjectURL(videoBlob); // IE10+
-      // Video is now downloaded
-      // and we can set it as source on the video element
-      video.src = vid;
-      init();
-   }
-}
+  // Onload is triggered even on 404
+  // so we need to check the status code
+  if (this.status === 200) {
+    var videoBlob = this.response;
+    var vid = URL.createObjectURL(videoBlob); // IE10+
+    // Video is now downloaded
+    // and we can set it as source on the video element
+    video.src = vid;
+    init();
+  }
+};
 req.onerror = function() {
-   console.log('there was an error loading the video');
-}
+  console.log("there was an error loading the video");
+};
+
+var loadingSpinner = document.querySelector("#loading");
+var loadingDiv = document.querySelector(".progress");
+var startBtn = document.querySelector(".start");
+
+//*****************************************************************************//
+//        Start Screen Button EventListener to fix Chrome update               //
+//*****************************************************************************//
+req.addEventListener("progress", function(oEvent) {
+  if (oEvent.lengthComputable) {
+    var percentComplete = oEvent.loaded / oEvent.total * 100;
+    loadingDiv.innerHTML = "%" + Math.ceil(percentComplete);
+
+    if (percentComplete === 100) {
+      startBtn.style.display = "block";
+      loadingDiv.style.visibility = "hidden";
+      loadingSpinner.style.visibility = "hidden";
+      videoLoaded.loaded = true;
+      checkforAssetsLoaded();
+    }
+    // ...
+  } else {
+    // Unable to compute progress information since the total size is unknown
+    console.log(oEvent);
+  }
+});
 
 req.send();
 
@@ -117,20 +149,17 @@ controls.enableZoom = false;
 var checkboxStart = document.querySelector("input[name=checkboxStart]");
 checkboxStart.addEventListener("change", function() {
   if (this.checked) {
-
     //***********************************************//
     //     Check if user has interacted with page    //
     //***********************************************//
-    window.addEventListener('mousedown', mouseDown);
-
-    setTimeout(()=>{
+    window.addEventListener("mousedown", mouseDown);
+    setTimeout(() => {
       if (!userHasInteracted && isDesktop) {
         document.querySelector(".dragPrompt").style.opacity = "1";
         document.querySelector(".dragPrompt").style.zIndex = "10";
-
       }
-    }, 8000)
-
+    }, 8000);
+    // remove landing page once user starts 3d tour
     document.querySelector(".bkg").style.display = "none";
 
     //***********************************************//
@@ -148,100 +177,15 @@ checkboxStart.addEventListener("change", function() {
 
     // load a sound and set it as the PositionalAudio object's buffer
     var audioLoader = new THREE.AudioLoader();
-    // Jurassic Park mp3 Loaded
-    audioLoader.load(
-      "/assets/music/jurassic.mp3",
-      function(buffer) {
-        sound1.setBuffer(buffer);
-        sound1.setRefDistance(20);
-        sound1.setLoop(true);
-        sound1Loaded.loaded = true;
-        checkforAssetsLoaded();
-        // sound1.play();
-      }, // onProgress callback
-      function(xhr) {
-        var percentLoaded = xhr.loaded / xhr.total * 100;
-
-        // console.log("sound1Loaded... " + percentLoaded);
-        if (percentLoaded === 100) {
-
-          
-          
-        }
-      },
-      // onError callback
-      function(err) {
-        console.log("An error happened");
-      }
-    );
-    // Harry Potter mp3 Loaded
-    audioLoader.load(
-      "/assets/music/hp.mp3",
-      function(buffer) {
-        sound2.setBuffer(buffer);
-        sound2.setRefDistance(20);
-        sound2.setLoop(true);
-        sound2Loaded.loaded = true;
-        checkforAssetsLoaded();
-        // sound2.play();
-      }, // onProgress callback
-      function(xhr) {
-        var percentLoaded = xhr.loaded / xhr.total * 100;
-          // console.log("sound2Loaded... " + percentLoaded);
-        if (percentLoaded === 100) {
-
-        }
-      },
-      // onError callback
-      function(err) {
-        console.log("An error happened");
-      }
-    );
-    // Jaws & Superman mp3 Loaded
-    audioLoader.load(
-      "/assets/music/jaws.mp3",
-      function(buffer) {
-        sound3.setBuffer(buffer);
-        sound3.setRefDistance(20);
-        sound3.setLoop(true);
-        sound3Loaded.loaded = true;
-        checkforAssetsLoaded();
-        // sound3.play();
-      }, // onProgress callback
-      function(xhr) {
-        var percentLoaded = xhr.loaded / xhr.total * 100;
-          // console.log("sound3Loaded... " + percentLoaded);
-        if (percentLoaded === 100) {
-
-        }
-      },
-      // onError callback
-      function(err) {
-        console.log("An error happened");
-      }
-    );
-    // Star Wars mp3 Loaded
-    audioLoader.load(
-      "/assets/music/sw.mp3",
-      function(buffer) {
-        sound4.setBuffer(buffer);
-        sound4.setRefDistance(20);
-        sound4.setLoop(true);
-        sound4Loaded.loaded = true;
-        checkforAssetsLoaded();
-        // sound4.play();
-      }, // onProgress callback
-      function(xhr) {
-        var percentLoaded = xhr.loaded / xhr.total * 100;
-          // console.log("sound4Loaded... " + percentLoaded);
-        if (percentLoaded === 100) {
-
-        }
-      },
-      // onError callback
-      function(err) {
-        console.log("An error happened");
-      }
+    // Load and play all tracks.
+    loadAllTracks(
+      audioLoader,
+      sound1,
+      sound2,
+      sound3,
+      sound4,
+      loadedElements,
+      checkforAssetsLoaded
     );
 
     // This will function create a loop that causes the renderer to draw the scene every time the screen is refreshed
@@ -262,7 +206,7 @@ checkboxStart.addEventListener("change", function() {
       renderer.render(scene, camera);
     }
 
-    // init();
+    //init();
     animate(camera);
 
     //*******************************************//
@@ -289,8 +233,8 @@ checkboxStart.addEventListener("change", function() {
     //           Toggle Sound On/Off  Buttons    //
     //*******************************************//
     var checkboxSound = document.querySelector("input[name=checkboxSound]");
-    checkboxSound.style.cursor = 'pointer';
-    checkboxSound.style.display = 'none';
+    checkboxSound.style.cursor = "pointer";
+    checkboxSound.style.display = "none";
     checkboxSound.addEventListener("change", function() {
       if (this.checked) {
         // Checkbox is checked..
@@ -308,7 +252,7 @@ checkboxStart.addEventListener("change", function() {
     //          Toggle Play / Pause Buttons      //
     //*******************************************//
     var checkboxPlay = document.querySelector("input[name=checkboxPlay]");
-    checkboxPlay.style.cursor = 'pointer';
+    checkboxPlay.style.cursor = "pointer";
     checkboxPlay.addEventListener("change", function() {
       if (this.checked) {
         // Checkbox is checked..
@@ -322,7 +266,6 @@ checkboxStart.addEventListener("change", function() {
         playTracks(sound1, sound2, sound3, sound4);
       }
     });
-  } else {
   }
 });
 
@@ -336,18 +279,6 @@ function init() {
   video.muted = true;
   // video.src = videoUrl;
   video.setAttribute("webkit-playsinline", "webkit-playsinline");
-
-  // video.addEventListener('progress', function() {
-  //   console.log('loading')
-  // });
-
-  video.addEventListener("canplaythrough", function() {
-    console.log('can play video')
-    videoLoaded.loaded = true;
-    checkforAssetsLoaded();
-  }, false);
-  
-
   var geometry = new THREE.SphereBufferGeometry(500, 60, 40);
   geometry.scale(-1, 1, 1);
 
@@ -371,6 +302,49 @@ window.addEventListener("resize", function() {
   camera.aspect = width / height;
   camera.updateProjectionMatrix();
 });
+
+function loadAllTracks(
+  audioLoader,
+  sound1,
+  sound2,
+  sound3,
+  sound4,
+  loadedElements,
+  checkforAssetsLoaded
+) {
+  // Jurassic Park mp3 Loaded
+  audioLoader.load("/assets/music/jurassic.mp3", function(buffer) {
+    sound1.setBuffer(buffer);
+    sound1.setRefDistance(20);
+    sound1.setLoop(true);
+    loadedElements[0].loaded = true;
+    checkforAssetsLoaded();
+  });
+  // Harry Potter mp3 Loaded
+  audioLoader.load("/assets/music/hp.mp3", function(buffer) {
+    sound2.setBuffer(buffer);
+    sound2.setRefDistance(20);
+    sound2.setLoop(true);
+    loadedElements[1].loaded = true;
+    checkforAssetsLoaded();
+  });
+  // Jaws & Superman mp3 Loaded
+  audioLoader.load("/assets/music/jaws.mp3", function(buffer) {
+    sound3.setBuffer(buffer);
+    sound3.setRefDistance(20);
+    sound3.setLoop(true);
+    loadedElements[2].loaded = true;
+    checkforAssetsLoaded();
+  });
+  // Star Wars mp3 Loaded
+  audioLoader.load("/assets/music/sw.mp3", function(buffer) {
+    sound4.setBuffer(buffer);
+    sound4.setRefDistance(20);
+    sound4.setLoop(true);
+    loadedElements[3].loaded = true;
+    checkforAssetsLoaded();
+  });
+}
 
 //******************************************************************************//
 //    Sets correct volume & plays correct song when in range for each theme     //
